@@ -1,0 +1,22 @@
+name: prt-sha
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: event info
+        run: |
+          echo "EVENT=$GITHUB_EVENT_NAME"
+          echo "GITHUB_SHA=$GITHUB_SHA"
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "HEAD_SHA=${{ github.event.pull_request.head.sha }}"
+          echo "BASE_SHA=${{ github.event.pull_request.base.sha }}"
+      - uses: actions/checkout@v4
+      - name: checked out
+        run: |
+          echo "checked_out=$(git rev-parse HEAD)"
+          ls -1
